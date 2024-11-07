@@ -31,6 +31,8 @@ void ASpawnCar::BeginPlay()
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ASpawnCar::DelayedStart, 1.0f, false);
 	CarNumbers = 0;
+
+	FixedCarRotationZ = GetActorRotation().Yaw;
 }
 
 // Called every frame
@@ -77,6 +79,7 @@ void ASpawnCar::SpawnCar()
 		}
 
 		SpawnedCar->ForwardVector = SpawnActorDirection->GetForwardVector();
+		SpawnedCar->FixedCarRotationZ = FixedCarRotationZ;
 		SpawnedCar->Direction = CarDirection;
 		SpawnedCar->ImpluseScale = CarImpluseScale;
 		CarNumbers++;

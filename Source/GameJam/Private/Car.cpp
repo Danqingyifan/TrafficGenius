@@ -4,6 +4,7 @@
 
 #include "Barrier.h"
 #include "Components/ArrowComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 
 // Sets default values
@@ -23,8 +24,10 @@ ACar::ACar()
 	RaycastPosition = CreateDefaultSubobject<USceneComponent>("RaycastPosition");
 	RaycastPosition->SetupAttachment(BoxComponent);
 
-	BoxComponent->OnComponentHit.AddDynamic(this, &ACar::OnHit);
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>("AudioComponent");
+	AudioComponent->SetupAttachment(BoxComponent);
 	
+	BoxComponent->OnComponentHit.AddDynamic(this, &ACar::OnHit);
 }
 
 // Called when the game starts or when spawned
@@ -57,6 +60,11 @@ void ACar::Tick(float DeltaTime)
 		Brake();
 	}
 
+	if(FMath::Abs(GetActorRotation().Yaw - FixedCarRotationZ) > 1.0f)
+	{
+		FRotator NewRotation = FRotator(0, FixedCarRotationZ, 0);
+        SetActorRotation(NewRotation);
+	}
 	AddActorWorldOffset(ForwardVector * CurrentSpeed * DeltaTime);
 }
 
@@ -140,7 +148,12 @@ void ACar::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimiti
 			{
 				HitComponent->AddImpulse(Impluse, NAME_None, true);
 			}
-			
+
+			if (AudioComponent && HitSoundToPlay)
+			{
+				AudioComponent->SetSound(HitSoundToPlay);  // 设置音效
+				AudioComponent->Play(); // 播放音效
+			}
 			FTimerHandle TimerHandle;
 			GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
 			{

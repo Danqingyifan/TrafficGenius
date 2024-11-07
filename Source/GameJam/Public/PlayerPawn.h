@@ -49,4 +49,7 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int DeadPersonAmount = 0;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	USoundBase* ClickCarSoundToPlay;
 };

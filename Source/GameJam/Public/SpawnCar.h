@@ -77,6 +77,9 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float CarImpluseScale = 1.0f;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+    float FixedCarRotationZ = 0.0f;
 public:
 	// 声明静态变量
 	static int32 CarNumbers;

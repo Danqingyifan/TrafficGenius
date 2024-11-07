@@ -142,7 +142,12 @@ void APlayerPawn::Click(const FInputActionValue& Value)
 			{
 				HitComponent->AddImpulse(Impulse, NAME_None, true);
 			}
-
+			if (ClickCarSoundToPlay)
+			{
+				// 播放2D音效（不受位置影响）
+				UGameplayStatics::PlaySound2D(this, ClickCarSoundToPlay);
+			}
+			
 			DamagedCarAmount += 1;
 			
 			// 设置五秒后自动销毁

@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float DeceleratedSpeed;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float BrakingSpeed;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	ECarDirection Direction;
 
@@ -81,4 +84,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float ImpluseScale = 1.0f;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TObjectPtr<UAudioComponent> AudioComponent;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	USoundBase* HitSoundToPlay;
+
+	float FixedCarRotationZ = 0.0f;
 };
